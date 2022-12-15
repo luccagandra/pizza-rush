@@ -3,6 +3,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 import math
+import random
 
 def main():
     path = '/home/lucca/Desktop/background.png'
@@ -10,10 +11,28 @@ def main():
 
     image_squared, lines, columns = draw_grid(image = image, grid_shape = [50,50], thickness = 2)
 
-    plt.imshow(image_squared)
+    img_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    ret, thresh = cv2.threshold(img_gray, 150, 255, cv2.THRESH_BINARY)
+
+    contours, hierarchy = cv2.findContours(image=thresh, mode=cv2.RETR_TREE, method=cv2.CHAIN_APPROX_NONE)
+    image_contoured = cv2.drawContours(image=image, contours=contours, contourIdx=-1, color=(0, 255, 0), thickness=1, lineType=cv2.LINE_AA)
+
+    # fill contours --> cv2.drawContours(img, contours, -1, color=(255, 255, 255), thickness=cv2.FILLED)
+
+    #print("Number of Contours is: " + str(len(contours)))
+
+    rand = random.randint(1, 50)
+    
+    for i in range(len(contours)):
+        if i > 50:
+            break
+        elif i == rand:
+            cv2.drawContours(image_contoured, contours, contourIdx = (2500 - rand), color=(255, 0, 0), thickness=cv2.FILLED)
+
+    plt.imshow(image_contoured)
     plt.show()
 
-def draw_grid(image, grid_shape, color=(255, 255, 255), thickness=1):
+def draw_grid(image, grid_shape, color=(0, 0, 0), thickness=1):
     h, w, _ = image.shape
     rows, cols = grid_shape
     dy, dx = h / rows, w / cols
