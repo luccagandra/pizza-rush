@@ -21,16 +21,49 @@ def main():
 
     #print("Number of Contours is: " + str(len(contours)))
 
-    rand = random.randint(1, 50)
-    
-    for i in range(len(contours)):
-        if i > 50:
-            break
-        elif i == rand:
-            cv2.drawContours(image_contoured, contours, contourIdx = (2500 - rand), color=(255, 0, 0), thickness=cv2.FILLED)
+    '''
+    rgb(0, 255, 0) Green
+    rgb(127, 255, 0)
+    rgb(255, 255, 0)
+    rgb(255, 105, 0)
+    rgb(255, 0, 0) Red
+    '''
 
-    plt.imshow(image_contoured)
-    plt.show()
+    rand = random.randint(1, 50)
+
+    cv2.drawContours(image_contoured, contours, contourIdx = (2500 - rand), color=(255, 0, 0), thickness=cv2.FILLED)
+
+    list_tables = []
+
+    for i in range(50):
+        tables = random.randint(1, 2450)
+        list_tables.append(tables)
+    
+        cv2.drawContours(image_contoured, contours, contourIdx = tables, color=(0, 0, 255), thickness=cv2.FILLED)
+    
+    arr = np.asarray(list_tables)
+    
+    for i in range(2*len(arr)):
+        if i%2 == 0: 
+            pass
+        else:
+            arr = np.insert(arr, i, 5)
+    
+    arr = arr.reshape(int(len(arr)/2), 2)
+    
+    array_of_tables_served = np.array([])
+
+    loop = 0
+
+    while loop < 100:
+        
+        for i in range(len(arr)):
+            if arr[i, 0]
+        
+        plt.imshow(image_contoured)
+        plt.show()
+
+        loop += 1
 
 def draw_grid(image, grid_shape, color=(0, 0, 0), thickness=1):
     h, w, _ = image.shape
